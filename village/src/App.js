@@ -12,7 +12,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      smurfs: []
+      smurfs: [],
+      activeSmurf: null
     };
   }
   // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
@@ -40,11 +41,26 @@ class App extends Component {
       })
       .catch(err => console.log(err));
   };
+  setActiveSmurf = (e, smurf) => {
+    e.preventDefault();
+    this.setState({ activeSmurf: smurf });
+    this.props.history.push("/smurf-form");
+  };
+  updateSmurf = (e, id, newData) => {
+    e.preventDefault();
+    axios
+      .put(`http://localhost:3333/smurfs/${id}`, newData)
+      .then(res => {
+        this.setState({ smurfs: res.data, activeSmurf: null });
+        this.props.history.push("/");
+      })
+      .catch(err => console.log(err));
+  };
   render() {
     return (
       <div className="App bg-light min-vh-100">
         <Container>
-          <SmurfNav />
+          <SmurfNav setActiveSmurf={this.setActiveSmurf} />
           <Row className="Smurfs">
             <Col
               xs={{ size: 12 }}
@@ -65,6 +81,8 @@ class App extends Component {
                     {...props}
                     sendDataUpToApp={this.appendNewSmurfData}
                     smurfs={this.state.smurfs}
+                    activeSmurf={this.state.activeSmurf}
+                    updateSmurf={this.updateSmurf}
                   />
                 )}
               />
@@ -76,6 +94,7 @@ class App extends Component {
                     {...props}
                     smurfs={this.state.smurfs}
                     deleteSmurf={this.deleteSmurf}
+                    setActiveSmurf={this.setActiveSmurf}
                   />
                 )}
               />

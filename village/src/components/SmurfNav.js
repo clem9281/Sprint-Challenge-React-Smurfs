@@ -29,6 +29,7 @@ const SmurfNav = props => {
                 tag={NavLink}
                 to="/smurf-form"
                 activeClassName="active"
+                onClick={e => this.props.setActiveSmurf(e, null)}
               >
                 Add a New Smurf
               </BootNavLink>

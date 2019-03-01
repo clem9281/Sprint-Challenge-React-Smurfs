@@ -14,9 +14,9 @@ class SmurfForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      age: "",
-      height: ""
+      name: this.props.activeSmurf ? this.props.activeSmurf.name : "",
+      age: this.props.activeSmurf ? this.props.activeSmurf.age : "",
+      height: this.props.activeSmurf ? this.props.activeSmurf.height : ""
     };
   }
 
@@ -40,12 +40,20 @@ class SmurfForm extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <Card className="mt-3">
         <CardBody>
-          <h3>Add a Smurf</h3>
-          <Form onSubmit={this.addSmurf}>
+          <h3>{this.props.activeSmurf ? "Update Smurf" : "Add a Smurf"}</h3>
+          <Form
+            onSubmit={
+              this.props.activeSmurf
+                ? e =>
+                    this.props.updateSmurf(e, this.props.activeSmurf.id, {
+                      ...this.state
+                    })
+                : this.addSmurf
+            }
+          >
             <FormGroup>
               <Label for="exampleEmail">Name</Label>
               <Input
@@ -57,6 +65,16 @@ class SmurfForm extends Component {
               />
             </FormGroup>
             <FormGroup>
+              <Label for="exampleEmail">Height</Label>
+              <Input
+                onChange={this.handleInputChange}
+                placeholder="height"
+                value={this.state.height}
+                name="height"
+                type="text"
+              />
+            </FormGroup>
+            <FormGroup>
               <Label for="exampleEmail">Age</Label>
               <Input
                 onChange={this.handleInputChange}
@@ -64,16 +82,6 @@ class SmurfForm extends Component {
                 value={this.state.age}
                 name="age"
                 type="text"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">Height</Label>
-              <Input
-                onChange={this.handleInputChange}
-                placeholder="height"
-                value={this.state.height}
-                name="height"
-                type="number"
               />
             </FormGroup>
 
