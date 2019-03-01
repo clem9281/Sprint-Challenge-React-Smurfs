@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Container } from "reactstrap";
 
-import "./App.css";
 import SmurfForm from "./components/SmurfForm";
 import Smurfs from "./components/Smurfs";
 
@@ -23,12 +23,15 @@ class App extends Component {
       })
       .catch(err => console.log(err));
   }
+  appendNewSmurfData = newData => {
+    this.setState({ smurfs: newData });
+  };
   render() {
     return (
-      <div className="App">
-        <SmurfForm />
+      <Container className="App mt-4">
+        <SmurfForm sendDataUpToApp={this.appendNewSmurfData} />
         <Smurfs smurfs={this.state.smurfs} />
-      </div>
+      </Container>
     );
   }
 }
