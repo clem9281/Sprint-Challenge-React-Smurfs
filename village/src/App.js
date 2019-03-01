@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Container } from "reactstrap";
+import { Route } from "react-router-dom";
 
 import SmurfForm from "./components/SmurfForm";
 import Smurfs from "./components/Smurfs";
+import SmurfNav from "./components/SmurfNav";
 
 class App extends Component {
   constructor(props) {
@@ -28,10 +30,22 @@ class App extends Component {
   };
   render() {
     return (
-      <Container className="App mt-4">
-        <SmurfForm sendDataUpToApp={this.appendNewSmurfData} />
-        <Smurfs smurfs={this.state.smurfs} />
-      </Container>
+      <div className="App bg-light min-vh-100">
+        <Container>
+          <SmurfNav />
+          <Route
+            path="/"
+            exact
+            render={props => <Smurfs {...props} smurfs={this.state.smurfs} />}
+          />
+          <Route
+            path="/smurf-form"
+            render={props => (
+              <SmurfForm {...props} sendDataUpToApp={this.appendNewSmurfData} />
+            )}
+          />
+        </Container>
+      </div>
     );
   }
 }

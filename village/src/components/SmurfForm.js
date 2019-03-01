@@ -34,6 +34,7 @@ class SmurfForm extends Component {
       age: "",
       height: ""
     });
+    this.props.history.push("/");
   };
 
   handleInputChange = e => {
@@ -48,7 +49,7 @@ class SmurfForm extends Component {
           md={{ size: 8, offset: 2 }}
           lg={{ size: 6, offset: 3 }}
         >
-          <Card>
+          <Card className="mt-3">
             <CardBody>
               <h3>Add a Smurf</h3>
               <Form onSubmit={this.addSmurf}>
