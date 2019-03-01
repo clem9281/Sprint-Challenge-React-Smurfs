@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import {
-  Row,
-  Col,
   Card,
   CardBody,
   Form,
@@ -42,60 +40,49 @@ class SmurfForm extends Component {
   };
 
   render() {
+    console.log(this.props);
     return (
-      <Row className="SmurfForm">
-        <Col
-          xs={{ size: 12 }}
-          md={{ size: 8, offset: 2 }}
-          lg={{ size: 6, offset: 3 }}
-        >
-          <Card className="mt-3">
-            <CardBody>
-              <h3>Add a Smurf</h3>
-              <Form onSubmit={this.addSmurf}>
-                <FormGroup>
-                  <Label for="exampleEmail">Name</Label>
-                  <Input
-                    onChange={this.handleInputChange}
-                    placeholder="name"
-                    value={this.state.name}
-                    name="name"
-                    type="name"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Age</Label>
-                  <Input
-                    onChange={this.handleInputChange}
-                    placeholder="age"
-                    value={this.state.age}
-                    name="age"
-                    type="number"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Height</Label>
-                  <Input
-                    onChange={this.handleInputChange}
-                    placeholder="height"
-                    value={this.state.height}
-                    name="height"
-                    type="number"
-                  />
-                </FormGroup>
+      <Card className="mt-3">
+        <CardBody>
+          <h3>Add a Smurf</h3>
+          <Form onSubmit={this.addSmurf}>
+            <FormGroup>
+              <Label for="exampleEmail">Name</Label>
+              <Input
+                onChange={this.handleInputChange}
+                placeholder="name"
+                value={this.state.name}
+                name="name"
+                type="name"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleEmail">Age</Label>
+              <Input
+                onChange={this.handleInputChange}
+                placeholder="age"
+                value={this.state.age}
+                name="age"
+                type="text"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleEmail">Height</Label>
+              <Input
+                onChange={this.handleInputChange}
+                placeholder="height"
+                value={this.state.height}
+                name="height"
+                type="number"
+              />
+            </FormGroup>
 
-                <Button
-                  color="primary"
-                  className="d-block mx-auto"
-                  type="submit"
-                >
-                  Submit
-                </Button>
-              </Form>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+            <Button color="primary" className="d-block mx-auto" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </CardBody>
+      </Card>
     );
   }
 }
