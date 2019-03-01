@@ -28,6 +28,14 @@ class App extends Component {
   appendNewSmurfData = newData => {
     this.setState({ smurfs: newData });
   };
+  deleteSmurf = (e, id) => {
+    e.preventDefault();
+    console.log(id);
+    axios
+      .delete(`http://localhost:3333/smurfs/${id}`)
+      .then(res => this.setState({ smurfs: res.data }))
+      .catch(err => console.log(err));
+  };
   render() {
     return (
       <div className="App bg-light min-vh-100">
@@ -36,7 +44,13 @@ class App extends Component {
           <Route
             path="/"
             exact
-            render={props => <Smurfs {...props} smurfs={this.state.smurfs} />}
+            render={props => (
+              <Smurfs
+                {...props}
+                smurfs={this.state.smurfs}
+                deleteSmurf={this.deleteSmurf}
+              />
+            )}
           />
           <Route
             path="/smurf-form"
