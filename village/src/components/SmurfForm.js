@@ -20,13 +20,23 @@ class SmurfForm extends Component {
     };
   }
 
-  addSmurf = event => {
+  addSmurf = async event => {
     event.preventDefault();
+    try {
+      let response = await axios.post("http://localhost:3333/smurfs", {
+        ...this.state
+      });
+      this.props.sendDataUpToApp(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+
     // add code to create the smurf using the api
-    axios
-      .post("http://localhost:3333/smurfs", { ...this.state })
-      .then(res => this.props.sendDataUpToApp(res.data))
-      .catch(err => console.log(err));
+    // axios
+    //   .post("http://localhost:3333/smurfs", { ...this.state })
+    //   .then(res => this.props.sendDataUpToApp(res.data))
+    //   .catch(err => console.log(err));
+
     this.setState({
       name: "",
       age: "",
