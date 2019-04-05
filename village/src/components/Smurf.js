@@ -1,20 +1,31 @@
-import React from 'react';
+import React from "react";
+import {
+  ListGroupItem,
+  ListGroupItemHeading,
+  ListGroupItemText
+} from "reactstrap";
 
-const Smurf = props => {
+const Smurf = ({ age, name, height, id, history }) => {
   return (
-    <div className="Smurf">
-      <h3>{props.name}</h3>
-      <strong>{props.height} tall</strong>
-      <p>{props.age} smurf years old</p>
-    </div>
+    <ListGroupItem
+      className="Smurf"
+      onClick={() => {
+        history.push(`/smurf/${id}`);
+      }}
+    >
+      <ListGroupItemHeading className="mb-3">{name}</ListGroupItemHeading>
+      <ListGroupItemText className="mb-1">{height} tall</ListGroupItemText>
+      <ListGroupItemText className="mb-1">
+        {age} smurf years old
+      </ListGroupItemText>
+    </ListGroupItem>
   );
 };
 
 Smurf.defaultProps = {
-  name: '',
-  height: '',
-  age: ''
+  name: "",
+  height: "",
+  age: ""
 };
 
 export default Smurf;
-

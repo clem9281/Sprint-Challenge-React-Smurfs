@@ -1,16 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { ListGroup } from "reactstrap";
 
-import Smurf from './Smurf';
+import Smurf from "./Smurf";
 
 class Smurfs extends Component {
   render() {
     return (
-      <div className="Smurfs">
-        <h1>Smurf Village</h1>
-        <ul>
+      <React.Fragment>
+        <h1 className="text-center mt-3">Smurf Village</h1>
+        <ListGroup>
           {this.props.smurfs.map(smurf => {
             return (
               <Smurf
+                history={this.props.history}
                 name={smurf.name}
                 id={smurf.id}
                 age={smurf.age}
@@ -19,14 +21,14 @@ class Smurfs extends Component {
               />
             );
           })}
-        </ul>
-      </div>
+        </ListGroup>
+      </React.Fragment>
     );
   }
 }
 
 Smurf.defaultProps = {
- smurfs: [],
+  smurfs: []
 };
 
 export default Smurfs;

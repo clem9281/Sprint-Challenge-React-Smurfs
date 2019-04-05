@@ -1,27 +1,109 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import axios from "axios";
+import { Container, Row, Col } from "reactstrap";
+import { Route, withRouter } from "react-router-dom";
 
-import './App.css';
-import SmurfForm from './components/SmurfForm';
-import Smurfs from './components/Smurfs';
+import SmurfForm from "./components/SmurfForm";
+import Smurfs from "./components/Smurfs";
+import SmurfNav from "./components/SmurfNav";
+import SingleSmurf from "./components/SingleSmurf";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       smurfs: [],
+      activeSmurf: null
     };
   }
   // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
   // Notice what your map function is looping over and returning inside of Smurfs.
   // You'll need to make sure you have the right properties on state and pass them down to props.
+  componentDidMount() {
+    axios
+      .get("http://localhost:3333/smurfs")
+      .then(res => {
+        this.setState({ smurfs: res.data });
+      })
+      .catch(err => console.log(err));
+  }
+  appendNewSmurfData = newData => {
+    this.setState({ smurfs: newData });
+  };
+  deleteSmurf = (e, id) => {
+    e.preventDefault();
+    console.log(id);
+    axios
+      .delete(`http://localhost:3333/smurfs/${id}`)
+      .then(res => {
+        this.setState({ smurfs: res.data });
+        this.props.history.push("/");
+      })
+      .catch(err => console.log(err));
+  };
+  setActiveSmurf = (e, smurf) => {
+    e.preventDefault();
+    this.setState({ activeSmurf: smurf });
+    this.props.history.push("/smurf-form");
+  };
+  updateSmurf = (e, id, newData) => {
+    e.preventDefault();
+    axios
+      .put(`http://localhost:3333/smurfs/${id}`, newData)
+      .then(res => {
+        this.setState({ smurfs: res.data, activeSmurf: null });
+        this.props.history.push("/");
+      })
+      .catch(err => console.log(err));
+  };
   render() {
     return (
-      <div className="App">
-        <SmurfForm />
-        <Smurfs smurfs={this.state.smurfs} />
+      <div className="App bg-light min-vh-100">
+        <Container>
+          <SmurfNav setActiveSmurf={this.setActiveSmurf} />
+          <Row className="Smurfs">
+            <Col
+              xs={{ size: 12 }}
+              md={{ size: 8, offset: 2 }}
+              lg={{ size: 6, offset: 3 }}
+            >
+              <Route
+                path="/"
+                exact
+                render={props => (
+                  <Smurfs {...props} smurfs={this.state.smurfs} />
+                )}
+              />
+              <Route
+                path="/smurf-form"
+                render={props => (
+                  <SmurfForm
+                    {...props}
+                    sendDataUpToApp={this.appendNewSmurfData}
+                    smurfs={this.state.smurfs}
+                    activeSmurf={this.state.activeSmurf}
+                    updateSmurf={this.updateSmurf}
+                  />
+                )}
+              />
+              <Route
+                path="/smurf/:id"
+                exact
+                render={props => (
+                  <SingleSmurf
+                    {...props}
+                    smurfs={this.state.smurfs}
+                    deleteSmurf={this.deleteSmurf}
+                    setActiveSmurf={this.setActiveSmurf}
+                  />
+                )}
+              />
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
